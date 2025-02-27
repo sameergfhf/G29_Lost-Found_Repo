@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #1c1c1c; /* Slightly lighter black */
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    .scrollable-form {
+        background: rgba(0, 0, 0, 0.7); /* Glassy look */
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0px 8px 15px rgba(255, 77, 77, 0.3);
+        backdrop-filter: blur(10px); /* Glass effect */
+        border: 2px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+
+    .scrollable-form:hover {
+        border-color: rgba(255, 77, 77, 0.7);
+        box-shadow: 0px 10px 20px rgba(255, 77, 77, 0.5);
+    }
+
+    .container {
+        background-color: transparent;
+        padding-top: 8%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    h2 {
+        color: #ff4d4d; /* Red color for headings */
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .btn-primary, .btn-secondary {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-primary:hover, .btn-secondary:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 5px 10px rgba(255, 77, 77, 0.6);
+    }
+
+    .category-buttons .btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    margin-bottom: 15px; /* Add spacing between buttons */
+}
+
+
+    .category-buttons .btn:hover {
+        transform: translateY(-5px);
+        background-color: #cc0000;
+    }
+
+    #selected-category {
+        border: 2px solid #ff4d4d;
+        background-color: #333333;
+        color: white;
+    }
+
+    input, textarea {
+        background-color: #333333;
+        color: white;
+        border: 1px solid #444;
+        border-radius: 8px;
+    }
+
+    input:focus, textarea:focus {
+        border-color: #ff4d4d;
+        box-shadow: 0px 0px 10px rgba(255, 77, 77, 0.5);
+    }
+
+    label {
+        color: #ff4d4d; /* Red color for labels */
+    }
+
+    .btn-danger {
+        background-color: #ff4d4d;
+        border: none;
+        color: white;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #cc0000;
+        transform: scale(1.1);
+    }
+
+    input[type="file"] {
+        color: white;
+        background-color: #ff4d4d;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+        background-color: #cc0000;
+        transform: scale(1.05);
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 10px 20px rgba(255, 77, 77, 0.5);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card p-4 mx-auto scrollable-form" style="max-width: 700px;">
+        <h2 class="text-center">Report an Item</h2>
+        <div class="d-flex justify-content-center my-3">
+            <button type="button" class="btn btn-primary me-2" >Found</button> 
+        </div>
+        
+        <form method="POST" action="/add" enctype="multipart/form-data">
+
+            <!-- Hidden Input for Status -->
+            <input type="hidden" name="status" id="status">
+        
+            <div class="mb-3">
+                <label class="form-label">Where?</label>
+                <input name="location" type="text" class="form-control" placeholder="Enter the location of the item">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">When?</label>
+                <input name="date" type="date" class="form-control">
+            </div>
+        
+            <div class="mb-3">
+                <label class="form-label">Select a category</label>
+                <div class="category-buttons" id="category-buttons">
+                    <button type="button" class="btn" onclick="addCategory('Wallet, credit card & money')">Wallet, credit card & money</button>
+                    <button type="button" class="btn" onclick="addCategory('Identity document')">Identity document</button>
+                    <button type="button" class="btn" onclick="addCategory('Bags & suitcase')">Bags & suitcase</button>
+                    <button type="button" class="btn" onclick="addCategory('Electronics')">Electronics</button>
+                    <button type="button" class="btn" onclick="addCategory('Children\'s items')">Children's items</button>
+                    <button type="button" class="btn" onclick="addCategory('Jewelry, watch')">Jewelry, watch</button>
+                    <button type="button" class="btn" onclick="addCategory('Clothes and accessories')">Clothes and accessories</button>
+                    <button type="button" class="btn" onclick="addCategory('Miscellaneous')">Miscellaneous</button>
+                    <button type="button" class="btn" onclick="addCategory('Pets')">Pets</button>
+                    <button type="button" class="btn" onclick="addCategory('Personal belongings (keys, glasses)')">Personal belongings (keys, glasses)</button>
+                    <button type="button" class="btn" onclick="addCategory('Sport accessories')">Sport accessories</button>
+                    <button type="button" class="btn" onclick="addCategory('Other')">Other</button>
+                </div>
+                <input type="text" name="category" id="selected-category" class="form-control mt-2" placeholder="Selected category" readonly>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Specific Item</label>
+                <input type="text" name="item_name" class="form-control" placeholder="Specify name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3" placeholder="Describe the item"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Upload Image</label>
+                <input type="file" name="image" class="form-control">
+            </div>
+        
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger">Add my item</button>
+            </div>
+        </form>
+        {% block script %}
+            
+        <script>
+            function addCategory(category) {
+                document.getElementById('selected-category').value = category;
+            }
+        
+           
+
+                function submitForm(status) {
+        document.getElementById('status').value = status;
+        document.querySelector('form').submit();
+}
+
+        </script>
+        {% endblock %}
+        
+{% endblock %}

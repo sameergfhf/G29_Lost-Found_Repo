@@ -1,0 +1,190 @@
+{% extends "base1.html" %}
+
+{% block title %}Sign Up - Wfind{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        display: flex;
+        width: 1000px;
+        height: 600px;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        transition: 0.8s ease;
+    }
+
+    .left, .right {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        transition: 0.8s ease;
+    }
+
+    .left {
+        left: 0;
+        background: #000;
+        padding: 40px;
+    }
+
+    .left h2, .login-form h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        color: #ff4d4d;
+    }
+
+    .input-field {
+        margin-bottom: 20px;
+    }
+
+    .input-field input {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        outline: none;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        transition: 0.3s ease;
+    }
+
+    .input-field input:focus {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .signup-btn, .login-btn {
+        width: 70%;
+        padding: 15px;
+        border: none;
+        outline: none;
+        background: #ff4d4d;
+        color: white;
+        font-size: 1.2rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .signup-btn:hover, .login-btn:hover {
+        background: #e60000;
+    }
+
+    .right {
+        right: 0;
+        background: black;
+        overflow: hidden;
+    }
+
+    .right h1 {
+        font-size: 4rem;
+        color: #ff4d4d;
+        position: relative;
+        z-index: 2;
+    }
+
+    .right video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.5;
+    }
+
+    .toggle {
+        font-size: 1rem;
+        color: white;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .toggle:hover {
+        color: #ff4d4d;
+    }
+
+    /* Transitions for login mode */
+    .login-mode .left {
+        transform: translateX(-100%);
+    }
+
+    .login-mode .right {
+        transform: translateX(-100%);
+    }
+
+    .login-form {
+        position: absolute;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.8s ease;
+        transform: translateX(100%);
+    }
+
+    .login-mode .login-form {
+        transform: translateX(0);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="left">
+        <h2>Sign Up</h2>
+        <p>Welcome to Wfind. Find your things with ease!</p>
+        <form method="POST" action="/signup">
+            <div class="input-field">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-field">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button class="signup-btn" type="submit">Sign Up</button>
+        </form>
+        <div class="toggle" onclick="toggleMode()">Have an account? Log in</div>
+    </div>
+    <div class="right">
+        <h1>Wfind</h1>
+        <video autoplay muted loop>
+            <source src="/static/videos/vid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="login-form">
+        <h2>Log In</h2>
+        <form method="POST" action="/login">
+            <div class="input-field">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-field">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button class="login-btn" type="submit">Log In</button>
+        </form>
+        <div class="toggle" onclick="toggleMode()">Don't have an account? Sign Up</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function toggleMode() {
+        document.querySelector('.container').classList.toggle('login-mode');
+    }
+</script>
+{% endblock %}

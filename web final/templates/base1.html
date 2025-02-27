@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Wfind{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background-color: #0e0c0c;
+            color: white;
+            overflow: hidden;
+        }
+
+        .flash-message {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .flash-message p {
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            color: white;
+            font-size: 1.1rem;
+            animation: fadeout 5s forwards;
+        }
+
+        .success {
+            background: #4CAF50; /* Green for success */
+        }
+
+        .error {
+            background: #ff4d4d; /* Red for errors */
+        }
+
+        @keyframes fadeout {
+            0% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- Flash Messages -->
+    <div class="flash-message">
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    {% block content %}{% endblock %}
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

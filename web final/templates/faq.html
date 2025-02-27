@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    <style>
+        .faq-section {
+    text-align: center;
+    /* padding: 50px 20px; */
+    padding-top: 7%;
+}
+
+.faq-header h1 {
+    font-size: 3rem;
+    color: #ff4d4d;
+    margin-bottom: 10px;
+}
+
+.faq-header p {
+    font-size: 1.2rem;
+    color: #ffffffa0;
+    margin-bottom: 40px;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    height: 300px; /* Equal height for all boxes */
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
+    opacity: 0; /* Hidden initially for animation */
+    transform: translateY(100px); /* Positioned below */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.faq-item h2 {
+    font-size: 1.5rem;
+    color: #ff4d4d;
+    margin-bottom: 10px;
+}
+
+.faq-item p {
+    font-size: 1rem;
+    color: white;
+    line-height: 1.6;
+}
+
+.faq-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 0 30px rgba(255, 77, 77, 0.5);
+}
+
+.faq-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ff4d4d;
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(255, 77, 77, 0.7);
+}
+
+    </style>
+{% endblock %}
+
+
+
+{% block content %}
+    
+
+<section class="faq-section">
+    <div class="faq-header">
+        <h1>FAQs</h1>
+        <p>Discover answers to common questions about WFind</p>
+    </div>
+    <div class="faq-grid">
+        <!-- Repeatable FAQ Box -->
+        <div class="faq-item hidden">
+            <h2>What is WFind?</h2>
+            <p>WFind is a platform to help people recover lost items by connecting them with finders.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>How does it work?</h2>
+            <p>Users list lost or found items, and others search using location or item details.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>Is WFind free to use?</h2>
+            <p>Yes, our platform is completely free to use for everyone.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>How can I contact support?</h2>
+            <p>Use the "Contact Us" section in the footer or email us for assistance.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>Is my data secure?</h2>
+            <p>Yes, your data is protected using advanced encryption and security measures.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>What items can I list?</h2>
+            <p>You can list any lost or found items, including electronics, jewelry, and documents.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>How do I sign up?</h2>
+            <p>Click the "Join Us" button to create your account and start using WFind.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>Can I delete my listings?</h2>
+            <p>Yes, you can edit or delete your listings from your user profile anytime.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>Does WFind work globally?</h2>
+            <p>Currently, we operate in select regions, with plans to expand worldwide.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>How can I provide feedback?</h2>
+            <p>We welcome your feedback! Use the "Feedback" form in your profile section.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>Can I update my profile?</h2>
+            <p>Yes, you can update your profile anytime through the settings menu in your account.</p>
+        </div>
+        <div class="faq-item hidden">
+            <h2>What happens to old listings?</h2>
+            <p>Old listings remain in your account history and can be reactivated anytime.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const faqItems = document.querySelectorAll(".faq-item");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, { threshold: 0.1 });
+
+    faqItems.forEach((item) => {
+        observer.observe(item);
+    });
+});
+    </script>
+{% endblock %}
